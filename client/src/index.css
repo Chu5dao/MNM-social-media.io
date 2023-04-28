@@ -1,0 +1,16 @@
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap");
+
+html,
+body,
+#root,
+.app {
+  height: 100%;
+  width: 100%;
+  font-family: "Rubik", sans-serif;
+}
+
+/* 404 Not Found */
+.position-relative{position:relative!important}
+.position-absolute{position:absolute!important}
+.text-secondary{color:#6c757d!important}
+a.text-secondary:focus,a.text-secondary:hover{color:#494f54!important}
