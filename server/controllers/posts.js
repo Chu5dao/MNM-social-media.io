@@ -71,3 +71,29 @@ export const likePost = async (req, res) => {
     res.status(404).json({ message: err.message });
   }
 };
+// CREATE CMT
+export const cmt = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { userId } = req.body;
+    const post = await Post.findById(id);
+    const isCommented = post.comments.get(userId);
+
+    if (isCommented) {
+      post.comments.delete(userId);
+    } else {
+      post.comments.set(userId, true);
+    }
+
+    const updatedPost = await Post.findByIdAndUpdate(
+      id,
+      { comments: post.comment },
+      { new: true }
+    )
+    .populate("comments.postedBy", "_id", "lastName");
+
+    res.status(200).json(updatedPost);
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+};

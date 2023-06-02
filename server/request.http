@@ -1,0 +1,36 @@
+POST http://localhost:3001/auth/register
+Content-Type: application/json
+
+###
+
+POST http://localhost:3001/auth/login
+Content-Type: application/json
+
+{
+    "email": "quang3560396@gmail.com",
+    "password": "3560396"
+}
+
+###
+
+POST http://localhost:3001/auth/login
+Content-Type: application/json
+
+{
+    "email": "quang3560396@yahoo.com.vn",
+    "password": "3560396"
+}
+
+###
+
+POST http://localhost:3001/posts
+Content-Type: application/json
+Authorization: quang eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NTkwZWVhMGNkZjE0Nzk2MjE3MjA4ZSIsImlhdCI6MTY4NDE1MjM5MX0.iqafqUdR13sqmppENnbOAjkDEjc2PBBpAC2xfpNbvYw
+
+###
+GET http://localhost:3001/all/user
+Content-Type: application/json
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NTkwZWVhMGNkZjE0Nzk2MjE3MjA4ZSIsImlhdCI6MTY4NTQzNDkxMn0.nHXCqSA8zR85EqJ1pYhHenYAvswm6cSmskXdCqVQcoc"
+}

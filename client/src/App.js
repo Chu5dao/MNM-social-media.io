@@ -3,11 +3,8 @@ import HomePage from "scenes/homePage";
 import LoginPage from "scenes/loginPage";
 import ProfilePage from "scenes/profilePage";
 import NotFound from "./components/NotFound";
-import Search from "scenes/search";
 import Message from "scenes/message";
 import Notify from "scenes/notify";
-import PageRender from "./customRouter/PageRender";
-import PrivateRouter from './customRouter/PrivateRouter';
 
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
@@ -26,18 +23,15 @@ function App() {
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <Routes>
-            <Route path="/" element={isAuth ? <HomePage/> : <LoginPage />} />
+            <Route path="/" element={isAuth ? <HomePage /> : <LoginPage />} />
+
             <Route
               path="/home"
-              element={isAuth ? <HomePage /> : <Navigate to="/" />}
+              element={isAuth ? <HomePage /> : <LoginPage />}
             />
             <Route
               path="/profile/:userId"
               element={isAuth ? <ProfilePage /> : <Navigate to="/" />}
-            />
-            <Route
-              path="/search/:userId"
-              element={isAuth ? <Search /> : <Navigate to="/" />}
             />
             <Route
               path="/message/:userId"
@@ -47,8 +41,6 @@ function App() {
               path="/notify/:userId"
               element={isAuth ? <Notify /> : <Navigate to="/" />}
             />
-            {/* <PrivateRouter exact path="/:page" component={PageRender} /> */}
-            {/* <PrivateRouter exact path="/:page/:userId" component={PageRender} /> */}
             <Route path="*" element={ isAuth ? <NotFound />  : <Navigate to="/" />}/>
           </Routes>
         </ThemeProvider>

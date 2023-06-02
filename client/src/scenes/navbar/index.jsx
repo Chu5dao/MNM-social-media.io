@@ -76,13 +76,8 @@ const Navbar = () => {
             <IconButton>
               <Search />
             </IconButton>
-          </FlexBetween><FlexBetween
-            backgroundColor={neutralLight}
-            borderRadius="9px"
-            gap="3rem"
-            padding="0.1rem 1.5rem"
-            style={{opacity: search ? 0 : 0.3}}
-          >aaaaaa</FlexBetween></>
+          </FlexBetween>
+          </>
         )}
       </FlexBetween>
 

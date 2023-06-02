@@ -14,3 +14,14 @@ body,
 .position-absolute{position:absolute!important}
 .text-secondary{color:#6c757d!important}
 a.text-secondary:focus,a.text-secondary:hover{color:#494f54!important}
+
+/* input cmt */
+.inputCmt{
+  padding: 0;
+  border: none;
+  outline: none;
+  width: 100%;
+}
+.formCmt{
+  display: flex;
+}

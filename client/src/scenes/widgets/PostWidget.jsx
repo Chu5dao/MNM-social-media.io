@@ -4,11 +4,12 @@ import {
   FavoriteOutlined,
   ShareOutlined,
 } from "@mui/icons-material";
+import SendRoundedIcon from '@mui/icons-material/SendRounded';
 import { Box, Divider, IconButton, Typography, useTheme } from "@mui/material";
 import FlexBetween from "components/FlexBetween";
 import Friend from "components/Friend";
 import WidgetWrapper from "components/WidgetWrapper";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPost } from "state";
 
@@ -24,6 +25,7 @@ const PostWidget = ({
   comments,
 }) => {
   const [isComments, setIsComments] = useState(false);
+  const [dataComment, setdataComment] = useState();
   const dispatch = useDispatch();
   const token = useSelector((state) => state.token);
   const loggedInUserId = useSelector((state) => state.user._id);
@@ -46,6 +48,46 @@ const PostWidget = ({
     const updatedPost = await response.json();
     dispatch(setPost({ post: updatedPost }));
   };
+
+  const makeComment = (text, portId) => {
+    fetch('/comment', {
+      method: "post",
+      headers:{
+        Authorization: `Bearer ${token}`,
+        "Content-Type":'application/json'
+      },
+      body:JSON.stringify({
+        postId,
+        text
+      })
+    }).then(res => res.json())
+    .then(result=>{
+      console.log(result)
+      const newData = dataComment.map(item=>{
+        if(item._id===result._id){
+          return result
+        }else{
+          return item
+        }
+      })
+      setdataComment(newData)
+    }).catch(err=>{
+      console.log(err)
+    })
+  }
+
+  const [data, setData] = useState([])
+  useEffect(()=>{
+    fetch('/allpost', {
+      headers:{
+        "Authorization": "Bearer"+ localStorage.getItem("jwt"),
+        "Content-Type": "application/json",
+      }
+    }).then(res => res.json())
+    .then(result=>{
+      setData(result.posts)
+    })
+  },[])
 
   return (
     <WidgetWrapper m="2rem 0">
@@ -81,7 +123,9 @@ const PostWidget = ({
           </FlexBetween>
 
           <FlexBetween gap="0.3rem">
-            <IconButton onClick={() => setIsComments(!isComments)}>
+            <IconButton 
+            onClick={() => setIsComments(!isComments)}
+            >
               <ChatBubbleOutlineOutlined />
             </IconButton>
             <Typography>{comments.length}</Typography>
@@ -92,6 +136,26 @@ const PostWidget = ({
           <ShareOutlined />
         </IconButton>
       </FlexBetween>
+
+      <Box mt="0.5rem">
+            <Box >
+              {
+                data.map(item=>{
+                  return(
+                    <>
+                      <Divider />
+                      <Typography sx={{ color: main, m: "0.5rem 0", pl: "1rem" }}>
+                        {item.postedBy.name}
+                      </Typography>
+                    </>
+                  )
+                })
+              }
+              
+            </Box>
+
+        </Box>
+
       {isComments && (
         <Box mt="0.5rem">
           {comments.map((comment, i) => (
@@ -103,8 +167,37 @@ const PostWidget = ({
             </Box>
           ))}
           <Divider />
+          <Typography sx={{ color: main, m: "0.5rem 0", pl: "1rem" }}>
+            <form className="formCmt" action="" onSubmit={(e)=>{
+              e.preventDefault()
+              // makeComment(e.target[0].value,item._id)
+            }}>
+              <input className="inputCmt" type="text" placeholder="Add comment"/>
+              <SendRoundedIcon sx={{margin: "0 6px 0 0"}}/>
+            </form>
+          </Typography>
+          <Divider />
+
+
         </Box>
       )}
+      {/* {
+      dataComment.map(item => {
+        return(
+          <>
+            <Typography sx={{ color: main, m: "0.5rem 0", pl: "1rem" }}>
+            <form className="formCmt" action="" onSubmit={(e)=>{
+              e.preventDefault()
+              makeComment(e.target[0].value,item._id)
+            }}>
+              <input className="inputCmt" type="text" placeholder="Add comment"/>
+              <SendRoundedIcon sx={{margin: "0 6px 0 0"}}/>
+            </form>
+          </Typography>
+          <Divider />
+          </>
+          )})
+          } */}
     </WidgetWrapper>
   );
 };
